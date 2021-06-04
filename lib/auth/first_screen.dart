@@ -4,6 +4,7 @@ import 'package:flutter_catat_order/addOrder.dart';
 import 'package:flutter_catat_order/auth/login_page.dart';
 import 'package:flutter_catat_order/auth/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_catat_order/editOrder.dart';
 
 class FirstScreen extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -202,56 +203,72 @@ class OrderList extends StatelessWidget {
       itemCount: document.length,
       itemBuilder: (BuildContext context, int i) {
         String name = document[i].data()['name'].toString();
-        String date = document[i].data()['date'].toString();
+        DateTime _date = document[i].data()['date'].toDate();
         String phone = document[i].data()['phone'].toString();
+        String date = "${_date.day}/${_date.month}/${_date.year}";
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        name,
-                        style: TextStyle(fontSize: 20.0, letterSpacing: 1.0),
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          name,
+                          style: TextStyle(fontSize: 20.0, letterSpacing: 1.0),
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: Icon(
-                            Icons.date_range,
-                            color: Colors.pink,
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Icon(
+                              Icons.date_range,
+                              color: Colors.pink,
+                            ),
                           ),
-                        ),
-                        Text(
-                          date,
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: Icon(
-                            Icons.phone,
-                            color: Colors.pink,
+                          Text(
+                            date,
+                            style: TextStyle(fontSize: 18.0),
                           ),
-                        ),
-                        Text(
-                          phone,
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16.0),
+                            child: Icon(
+                              Icons.phone,
+                              color: Colors.pink,
+                            ),
+                          ),
+                          Text(
+                            phone,
+                            style: TextStyle(fontSize: 18.0),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  Navigator.of(context).push(new MaterialPageRoute(
+                      builder: (BuildContext context) => new EditOrder(
+                            name: name,
+                            date: document[i].data()['date'].toDate(),
+                            phone: phone,
+                            index: document[i].reference,
+                          )));
+                },
               ),
             ],
           ),

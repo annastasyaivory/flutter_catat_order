@@ -2,19 +2,37 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class AddOrder extends StatefulWidget {
-  AddOrder({this.email});
-  final String email;
+class EditOrder extends StatefulWidget {
+  EditOrder({this.date, this.name, this.phone, this.index});
+  final String name;
+  final String phone;
+  final DateTime date;
+  final index;
   @override
-  _AddOrderState createState() => _AddOrderState();
+  _EditOrderState createState() => _EditOrderState();
 }
 
-class _AddOrderState extends State<AddOrder> {
-  DateTime _dueDate = new DateTime.now();
+class _EditOrderState extends State<EditOrder> {
+  TextEditingController controllerName;
+  TextEditingController controllerPhone;
+
+  DateTime _dueDate;
   String _dateText = '';
 
-  String name = '';
-  String phone = '';
+  String name;
+  String phone;
+
+  void _updateOrder() {
+    FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(widget.index);
+      await transaction.update(snapshot.reference, {
+        "name": name,
+        "date": _dueDate,
+        "phone": phone,
+      });
+    });
+    Navigator.pop(context);
+  }
 
   Future<Null> _selectDueDate(BuildContext context) async {
     final picked = await showDatePicker(
@@ -30,25 +48,18 @@ class _AddOrderState extends State<AddOrder> {
     }
   }
 
-  void _addData() {
-    FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection('order');
-      await reference.add({
-        "email": widget.email,
-        "name": name,
-        "date": _dueDate,
-        "phone": phone,
-      });
-    });
-    Navigator.pop(context);
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _dueDate = widget.date; //toDate()
     _dateText = "${_dueDate.day}/${_dueDate.month}/${_dueDate.year}";
+
+    name = widget.name;
+    phone = widget.phone;
+
+    controllerName = new TextEditingController(text: widget.name);
+    controllerPhone = new TextEditingController(text: widget.phone);
   }
 
   @override
@@ -72,7 +83,7 @@ class _AddOrderState extends State<AddOrder> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: Text(
-                    "Add Order",
+                    "Edit Order",
                     style: TextStyle(fontSize: 24.0),
                   ),
                 ),
@@ -87,6 +98,7 @@ class _AddOrderState extends State<AddOrder> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              controller: controllerName,
               onChanged: (String str) {
                 setState(() {
                   name = str;
@@ -125,6 +137,7 @@ class _AddOrderState extends State<AddOrder> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
+              controller: controllerPhone,
               onChanged: (String str) {
                 setState(() {
                   phone = str;
@@ -149,7 +162,7 @@ class _AddOrderState extends State<AddOrder> {
                       size: 40.0,
                     ),
                     onPressed: () {
-                      _addData();
+                      _updateOrder();
                     }),
                 IconButton(
                     icon: Icon(

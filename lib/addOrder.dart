@@ -46,7 +46,6 @@ class _AddOrderState extends State<AddOrder> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _dateText = "${_dueDate.day}/${_dueDate.month}/${_dueDate.year}";
   }

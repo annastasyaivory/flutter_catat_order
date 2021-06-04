@@ -150,43 +150,6 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _showEmailInput() {
-    return Padding(
-      padding: EdgeInsets.only(top: 60),
-      child: TextFormField(
-        // onSaved: (val) => _email = val,
-        validator: (val) => !val.contains("@") ? "Invalid Email" : null,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: "Email",
-            hintText: "Enter Valid Email",
-            icon: Icon(
-              Icons.mail,
-              color: Colors.grey,
-            )),
-      ),
-    );
-  }
-
-  Widget _showPasswordInput() {
-    return Padding(
-      padding: EdgeInsets.only(top: 30),
-      child: TextFormField(
-        // onSaved: (val) => _password = val,
-        validator: (val) => val.length < 6 ? "Password Is Too Short" : null,
-        obscureText: true,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: "Password",
-            hintText: "Enter Valid Password",
-            icon: Icon(
-              Icons.lock,
-              color: Colors.grey,
-            )),
-      ),
-    );
-  }
-
 //membuat register button
   Widget _registerButton() {
     return Container(

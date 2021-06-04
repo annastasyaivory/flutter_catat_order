@@ -50,7 +50,6 @@ class _EditOrderState extends State<EditOrder> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _dueDate = widget.date; //toDate()
     _dateText = "${_dueDate.day}/${_dueDate.month}/${_dueDate.year}";

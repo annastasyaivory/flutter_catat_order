@@ -1,10 +1,11 @@
 import 'package:flutter_catat_order/auth/auth.dart';
-// import 'package:flutter_catat_order/profil_page.dart';
 import 'package:flutter_catat_order/auth/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catat_order/auth/sign_in.dart';
 import 'package:flutter_catat_order/auth/first_screen.dart';
+
+import '../screen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -165,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
               .handleSignInEmail(emailController.text, passwordController.text)
               .then((User user) {
             Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => new FirstScreen()));
+                new MaterialPageRoute(builder: (context) => new Screen()));
           }).catchError((e) => print(e));
         },
         child: Text(
@@ -216,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) {
-                    return FirstScreen();
+                    return Screen();
                   },
                 ),
               );

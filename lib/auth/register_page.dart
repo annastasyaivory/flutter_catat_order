@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_catat_order/auth/auth.dart';
-import 'package:flutter_catat_order/auth/first_screen.dart';
 import 'package:flutter_catat_order/auth/login_page.dart';
 // import 'package:flutter_catat_order/profil_page.dart';
 import 'package:flutter/material.dart';
+
+import '../screen.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -163,7 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   passwordController.text) //auth handler pada auth.dart
               .then((User user) {
             Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => new FirstScreen()));
+                new MaterialPageRoute(builder: (context) => new Screen()));
           }).catchError((e) => print(e));
         },
         child: Text(

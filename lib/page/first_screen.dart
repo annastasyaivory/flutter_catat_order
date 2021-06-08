@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_catat_order/addProduct.dart';
+import 'package:flutter_catat_order/form/addOrder.dart';
 import 'package:flutter_catat_order/auth/login_page.dart';
 import 'package:flutter_catat_order/auth/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_catat_order/editProduct.dart';
+import 'package:flutter_catat_order/form/editOrder.dart';
 
-class SecondScreen extends StatelessWidget {
+class FirstScreen extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class SecondScreen extends StatelessWidget {
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new AddProduct(
+              builder: (BuildContext context) => new AddOrder(
                     email: auth.currentUser.email,
                   )));
         },
@@ -34,7 +34,7 @@ class SecondScreen extends StatelessWidget {
           padding: const EdgeInsets.only(top: 110.0),
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
-                .collection("product")
+                .collection("order")
                 .where("email", isEqualTo: auth.currentUser.email)
                 .snapshots(),
             builder:
@@ -45,7 +45,7 @@ class SecondScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 );
-              return new ProductList(
+              return new OrderList(
                 document: snapshot.data.docs,
               );
             },
@@ -119,8 +119,8 @@ class SecondScreen extends StatelessWidget {
   }
 }
 
-class ProductList extends StatelessWidget {
-  ProductList({this.document});
+class OrderList extends StatelessWidget {
+  OrderList({this.document});
   final List<DocumentSnapshot> document;
 
   @override
@@ -128,8 +128,15 @@ class ProductList extends StatelessWidget {
     return new ListView.builder(
       itemCount: document.length,
       itemBuilder: (BuildContext context, int i) {
-        String nama = document[i].data()['nama'].toString();
-        String harga = document[i].data()['harga'].toString();
+        String name = document[i].data()['name'].toString();
+        DateTime _date = document[i].data()['date'].toDate();
+        String phone = document[i].data()['phone'].toString();
+        String date = "${_date.day}/${_date.month}/${_date.year}";
+        String alamat = document[i].data()['alamat'].toString();
+        String total = document[i].data()['total'].toString();
+        String metodeBayar = document[i].data()['metodeBayar'].toString();
+        String ekspedisi = document[i].data()['ekspedisi'].toString();
+        String status = document[i].data()['status'].toString();
 
         return new Dismissible(
           key: new Key(document[i].id),
@@ -156,10 +163,25 @@ class ProductList extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Text(
-                            nama,
+                            name,
                             style:
                                 TextStyle(fontSize: 20.0, letterSpacing: 1.0),
                           ),
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.date_range,
+                                color: Colors.pink,
+                              ),
+                            ),
+                            Text(
+                              date,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ],
                         ),
                         Row(
                           children: [
@@ -171,7 +193,82 @@ class ProductList extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              harga,
+                              phone,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.phone,
+                                color: Colors.pink,
+                              ),
+                            ),
+                            Text(
+                              alamat,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.phone,
+                                color: Colors.pink,
+                              ),
+                            ),
+                            Text(
+                              total,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.phone,
+                                color: Colors.pink,
+                              ),
+                            ),
+                            Text(
+                              metodeBayar,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.phone,
+                                color: Colors.pink,
+                              ),
+                            ),
+                            Text(
+                              ekspedisi,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.phone,
+                                color: Colors.pink,
+                              ),
+                            ),
+                            Text(
+                              status,
                               style: TextStyle(fontSize: 18.0),
                             ),
                           ],
@@ -184,9 +281,15 @@ class ProductList extends StatelessWidget {
                   icon: Icon(Icons.edit),
                   onPressed: () {
                     Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) => new EditProduct(
-                              nama: nama,
-                              harga: harga,
+                        builder: (BuildContext context) => new EditOrder(
+                              name: name,
+                              date: document[i].data()['date'].toDate(),
+                              phone: phone,
+                              alamat: alamat,
+                              total: total,
+                              metodeBayar: metodeBayar,
+                              ekspedisi: ekspedisi,
+                              status: status,
                               index: document[i].reference,
                             )));
                   },

@@ -1,8 +1,8 @@
 //import file pages lain untuk dipanggil
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_catat_order/auth/first_screen.dart';
-import 'package:flutter_catat_order/second_screen.dart';
+import 'package:flutter_catat_order/page/first_screen.dart';
+import 'package:flutter_catat_order/page/second_screen.dart';
 
 class Screen extends StatelessWidget {
   @override

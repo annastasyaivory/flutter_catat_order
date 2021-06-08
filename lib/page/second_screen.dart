@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_catat_order/addOrder.dart';
+import 'package:flutter_catat_order/form/addProduct.dart';
 import 'package:flutter_catat_order/auth/login_page.dart';
 import 'package:flutter_catat_order/auth/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_catat_order/editOrder.dart';
+import 'package:flutter_catat_order/form/editProduct.dart';
 
-class FirstScreen extends StatelessWidget {
+class SecondScreen extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class FirstScreen extends StatelessWidget {
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(new MaterialPageRoute(
-              builder: (BuildContext context) => new AddOrder(
+              builder: (BuildContext context) => new AddProduct(
                     email: auth.currentUser.email,
                   )));
         },
@@ -34,7 +34,7 @@ class FirstScreen extends StatelessWidget {
           padding: const EdgeInsets.only(top: 110.0),
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
-                .collection("order")
+                .collection("product")
                 .where("email", isEqualTo: auth.currentUser.email)
                 .snapshots(),
             builder:
@@ -45,7 +45,7 @@ class FirstScreen extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   ),
                 );
-              return new OrderList(
+              return new ProductList(
                 document: snapshot.data.docs,
               );
             },
@@ -119,8 +119,8 @@ class FirstScreen extends StatelessWidget {
   }
 }
 
-class OrderList extends StatelessWidget {
-  OrderList({this.document});
+class ProductList extends StatelessWidget {
+  ProductList({this.document});
   final List<DocumentSnapshot> document;
 
   @override
@@ -128,15 +128,8 @@ class OrderList extends StatelessWidget {
     return new ListView.builder(
       itemCount: document.length,
       itemBuilder: (BuildContext context, int i) {
-        String name = document[i].data()['name'].toString();
-        DateTime _date = document[i].data()['date'].toDate();
-        String phone = document[i].data()['phone'].toString();
-        String date = "${_date.day}/${_date.month}/${_date.year}";
-        String alamat = document[i].data()['alamat'].toString();
-        String total = document[i].data()['total'].toString();
-        String metodeBayar = document[i].data()['metodeBayar'].toString();
-        String ekspedisi = document[i].data()['ekspedisi'].toString();
-        String status = document[i].data()['status'].toString();
+        String nama = document[i].data()['nama'].toString();
+        String harga = document[i].data()['harga'].toString();
 
         return new Dismissible(
           key: new Key(document[i].id),
@@ -163,7 +156,7 @@ class OrderList extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Text(
-                            name,
+                            nama,
                             style:
                                 TextStyle(fontSize: 20.0, letterSpacing: 1.0),
                           ),
@@ -173,102 +166,12 @@ class OrderList extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(right: 16.0),
                               child: Icon(
-                                Icons.date_range,
-                                color: Colors.pink,
-                              ),
-                            ),
-                            Text(
-                              date,
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
                                 Icons.phone,
                                 color: Colors.pink,
                               ),
                             ),
                             Text(
-                              phone,
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.pink,
-                              ),
-                            ),
-                            Text(
-                              alamat,
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.pink,
-                              ),
-                            ),
-                            Text(
-                              total,
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.pink,
-                              ),
-                            ),
-                            Text(
-                              metodeBayar,
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.pink,
-                              ),
-                            ),
-                            Text(
-                              ekspedisi,
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.pink,
-                              ),
-                            ),
-                            Text(
-                              status,
+                              harga,
                               style: TextStyle(fontSize: 18.0),
                             ),
                           ],
@@ -281,15 +184,9 @@ class OrderList extends StatelessWidget {
                   icon: Icon(Icons.edit),
                   onPressed: () {
                     Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) => new EditOrder(
-                              name: name,
-                              date: document[i].data()['date'].toDate(),
-                              phone: phone,
-                              alamat: alamat,
-                              total: total,
-                              metodeBayar: metodeBayar,
-                              ekspedisi: ekspedisi,
-                              status: status,
+                        builder: (BuildContext context) => new EditProduct(
+                              nama: nama,
+                              harga: harga,
                               index: document[i].reference,
                             )));
                   },

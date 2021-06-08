@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_catat_order/splashscreen_view.dart';
+import 'package:flutter_catat_order/page/splashscreen_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -17,33 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreenPage(),
+      home:
+          SplashScreenPage(), //memanggil splashscreen untuk ditampilkan pertama kali saat aplikasi dijalankan
     );
-    // return Scaffold(
-    //   body: Container(
-    //       color: Colors.yellow,
-    //       child: Center(
-    //         child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           mainAxisSize: MainAxisSize.max,
-    //           children: <Widget>[
-    //             Container(
-    //               color: Colors.white12,
-    //             ),
-    //             FlatButton(
-    //               onPressed: () {
-    //                 Navigator.push(
-    //                   context,
-    //                   MaterialPageRoute(builder: (context) => LoginPage()),
-    //                 );
-    //               },
-    //               child: Text(
-    //                 "Get Started !",
-    //               ),
-    //             )
-    //           ],
-    //         ),
-    //       )),
-    // );
   }
 }

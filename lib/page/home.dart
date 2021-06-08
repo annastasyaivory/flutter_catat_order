@@ -2,12 +2,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catat_order/page/first_screen.dart';
+import 'package:flutter_catat_order/page/navigation_drawer_widget.dart';
 import 'package:flutter_catat_order/page/second_screen.dart';
 
 class Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavigationDrawerWidget(),
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
         title: Text('Catatan Orderan'),

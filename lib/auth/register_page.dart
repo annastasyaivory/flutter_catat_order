@@ -4,7 +4,7 @@ import 'package:flutter_catat_order/auth/login_page.dart';
 // import 'package:flutter_catat_order/profil_page.dart';
 import 'package:flutter/material.dart';
 
-import '../screen.dart';
+import '../page/home.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

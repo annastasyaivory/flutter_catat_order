@@ -5,12 +5,19 @@ import 'package:flutter_catat_order/auth/login_page.dart';
 import 'package:flutter_catat_order/auth/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_catat_order/form/editProduct.dart';
+import 'package:flutter_catat_order/page/navigation_drawer_widget.dart';
 
 class SecondScreen extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavigationDrawerWidget(),
+      appBar: AppBar(
+        title: Text('Products'),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey[900],
+      ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(new MaterialPageRoute(
@@ -31,7 +38,7 @@ class SecondScreen extends StatelessWidget {
       ),
       body: Stack(children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(top: 110.0),
+          padding: const EdgeInsets.all(0),
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection("product")
@@ -49,69 +56,6 @@ class SecondScreen extends StatelessWidget {
                 document: snapshot.data.docs,
               );
             },
-          ),
-        ),
-        Container(
-          height: 115.0,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              boxShadow: [new BoxShadow(color: Colors.black, blurRadius: 8.0)],
-              color: Colors.yellow),
-          child: Padding(
-            padding: const EdgeInsets.all(13.0),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 60.0,
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: new AssetImage("img/logo.png"),
-                          fit: BoxFit.cover)),
-                ),
-                Expanded(
-                  child: new Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new Text(
-                          "Order Manager",
-                          style: new TextStyle(
-                              fontSize: 15.0, color: Colors.black),
-                        ),
-                        new Text(
-                          auth.currentUser.email,
-                          style: new TextStyle(
-                              fontSize: 16.0, color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                new IconButton(
-                  icon: Icon(
-                    Icons.exit_to_app,
-                    color: Colors.black,
-                    size: 30.0,
-                  ),
-                  onPressed: () {
-                    if (imageUrl != null) {
-                      signOutGoogle();
-                    } else {
-                      Navigator.of(context).pop();
-                    }
-
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) {
-                      return LoginPage();
-                    }), ModalRoute.withName('/'));
-                  },
-                )
-              ],
-            ),
           ),
         ),
       ]),

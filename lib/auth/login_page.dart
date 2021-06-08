@@ -3,9 +3,9 @@ import 'package:flutter_catat_order/auth/register_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_catat_order/auth/sign_in.dart';
-import 'package:flutter_catat_order/auth/first_screen.dart';
+import 'package:flutter_catat_order/page/first_screen.dart';
 
-import '../screen.dart';
+import '../page/home.dart';
 
 class LoginPage extends StatefulWidget {
   @override

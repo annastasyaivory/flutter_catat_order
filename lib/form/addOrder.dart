@@ -17,9 +17,13 @@ class _AddOrderState extends State<AddOrder> {
   String phone = '';
   String alamat = '';
   String total = '';
-  String metodeBayar = '';
-  String ekspedisi = '';
   String status = '';
+  String
+      status1; //var sementara buat print value status di dropdown setelah dipilih
+
+  // var status;
+  // final GlobalKey<FormState> _formKeyValue = new GlobalKey<FormState>();
+  // List<String> _statusType = <String>['Full Payment', 'Pending'];
 
   Future<Null> _selectDueDate(BuildContext context) async {
     final picked = await showDatePicker(
@@ -44,8 +48,6 @@ class _AddOrderState extends State<AddOrder> {
         "name": name,
         "alamat": alamat,
         "total": total,
-        "metodeBayar": metodeBayar,
-        "ekspedisi": ekspedisi,
         "status": status,
         "date": _dueDate,
         "phone": phone,
@@ -176,50 +178,26 @@ class _AddOrderState extends State<AddOrder> {
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              onChanged: (String str) {
+            child: new DropdownButton<String>(
+              items: <String>['Full Payment', 'Pending'].map((String str) {
+                return new DropdownMenuItem<String>(
+                  value: str,
+                  child: new Text(str),
+                );
+              }).toList(),
+              onChanged: (selectedStatus) {
                 setState(() {
-                  metodeBayar = str;
+                  status1 = selectedStatus;
+                  status = status1;
                 });
               },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Metode Bayar (Transfer / Shopee)",
-                border: InputBorder.none,
+              value: status1,
+              isDense: true,
+              isExpanded: true,
+              hint: Text(
+                'Choose Status Payment',
+                style: TextStyle(color: Colors.black54),
               ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              onChanged: (String str) {
-                setState(() {
-                  ekspedisi = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Ekspedisi",
-                border: InputBorder.none,
-              ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              onChanged: (String str) {
-                setState(() {
-                  status = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Status (Lunas/Pending)",
-                border: InputBorder.none,
-              ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
             ),
           ),
           Padding(

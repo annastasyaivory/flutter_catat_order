@@ -76,8 +76,6 @@ class OrderList extends StatelessWidget {
         String date = "${_date.day}/${_date.month}/${_date.year}";
         String alamat = document[i].data()['alamat'].toString();
         String total = document[i].data()['total'].toString();
-        String metodeBayar = document[i].data()['metodeBayar'].toString();
-        String ekspedisi = document[i].data()['ekspedisi'].toString();
         String status = document[i].data()['status'].toString();
 
         return new Dismissible(
@@ -180,36 +178,6 @@ class OrderList extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              metodeBayar,
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.pink,
-                              ),
-                            ),
-                            Text(
-                              ekspedisi,
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.pink,
-                              ),
-                            ),
-                            Text(
                               status,
                               style: TextStyle(fontSize: 18.0),
                             ),
@@ -229,8 +197,6 @@ class OrderList extends StatelessWidget {
                               phone: phone,
                               alamat: alamat,
                               total: total,
-                              metodeBayar: metodeBayar,
-                              ekspedisi: ekspedisi,
                               status: status,
                               index: document[i].reference,
                             )));

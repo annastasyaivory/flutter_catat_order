@@ -6,8 +6,6 @@ class EditOrder extends StatefulWidget {
   EditOrder(
       {this.alamat,
       this.total,
-      this.metodeBayar,
-      this.ekspedisi,
       this.status,
       this.date,
       this.name,
@@ -17,8 +15,6 @@ class EditOrder extends StatefulWidget {
   final String phone;
   final String alamat;
   final String total;
-  final String metodeBayar;
-  final String ekspedisi;
   final String status;
   final DateTime date;
   final index;
@@ -31,8 +27,6 @@ class _EditOrderState extends State<EditOrder> {
   TextEditingController controllerPhone;
   TextEditingController controllerAlamat;
   TextEditingController controllerTotal;
-  TextEditingController controllerMetodeBayar;
-  TextEditingController controllerEkspedisi;
   TextEditingController controllerStatus;
 
   DateTime _dueDate;
@@ -42,9 +36,8 @@ class _EditOrderState extends State<EditOrder> {
   String phone;
   String alamat = '';
   String total = '';
-  String metodeBayar = '';
-  String ekspedisi = '';
   String status = '';
+  String status1;
 
   void _updateOrder() {
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
@@ -53,8 +46,6 @@ class _EditOrderState extends State<EditOrder> {
         "name": name,
         "alamat": alamat,
         "total": total,
-        "metodeBayar": metodeBayar,
-        "eskpedisi": ekspedisi,
         "status": status,
         "date": _dueDate,
         "phone": phone,
@@ -87,16 +78,12 @@ class _EditOrderState extends State<EditOrder> {
     phone = widget.phone;
     alamat = widget.alamat;
     total = widget.total;
-    metodeBayar = widget.metodeBayar;
-    ekspedisi = widget.ekspedisi;
-    status = widget.ekspedisi;
+    status = widget.status;
 
     controllerName = new TextEditingController(text: widget.name);
     controllerPhone = new TextEditingController(text: widget.phone);
     controllerAlamat = new TextEditingController(text: widget.alamat);
     controllerTotal = new TextEditingController(text: widget.total);
-    controllerMetodeBayar = new TextEditingController(text: widget.metodeBayar);
-    controllerEkspedisi = new TextEditingController(text: widget.ekspedisi);
     controllerStatus = new TextEditingController(text: widget.status);
   }
 
@@ -225,53 +212,26 @@ class _EditOrderState extends State<EditOrder> {
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              controller: controllerMetodeBayar,
-              onChanged: (String str) {
+            child: new DropdownButton<String>(
+              items: <String>['Full Payment', 'Pending'].map((String str) {
+                return new DropdownMenuItem<String>(
+                  value: str,
+                  child: new Text(str),
+                );
+              }).toList(),
+              onChanged: (selectedStatus) {
                 setState(() {
-                  metodeBayar = str;
+                  status1 = selectedStatus;
+                  status = status1;
                 });
               },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Metode Bayar (Transfer / Shopee)",
-                border: InputBorder.none,
+              // value: status1,
+              isDense: true,
+              isExpanded: true,
+              hint: Text(
+                status,
+                style: TextStyle(color: Colors.black),
               ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              controller: controllerEkspedisi,
-              onChanged: (String str) {
-                setState(() {
-                  ekspedisi = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Ekspedisi",
-                border: InputBorder.none,
-              ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              controller: controllerStatus,
-              onChanged: (String str) {
-                setState(() {
-                  status = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Status (Lunas/Pending)",
-                border: InputBorder.none,
-              ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
             ),
           ),
           Padding(

@@ -16,6 +16,8 @@ class _AddOrderState extends State<AddOrder> {
   String name = '';
   String phone = '';
   String alamat = '';
+  String product = '';
+  String product1;
   String total = '';
   String status = '';
   String
@@ -47,6 +49,7 @@ class _AddOrderState extends State<AddOrder> {
         "email": widget.email,
         "name": name,
         "alamat": alamat,
+        "product": product,
         "total": total,
         "status": status,
         "date": _dueDate,
@@ -162,6 +165,53 @@ class _AddOrderState extends State<AddOrder> {
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("product")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return new Container(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  else {
+                    List<DropdownMenuItem> currencyProducts = [];
+                    for (int i = 0; i < snapshot.data.docs.length; i++) {
+                      var snap = snapshot.data.docs[i].data();
+                      String pro = snap['nama'];
+                      currencyProducts.add(
+                        DropdownMenuItem(
+                          child: Text(pro),
+                          value: "$pro",
+                        ),
+                      );
+                    }
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        DropdownButton(
+                          items: currencyProducts,
+                          onChanged: (selectedProduct) {
+                            setState(() {
+                              product1 = selectedProduct;
+                              product = product1;
+                            });
+                          },
+                          value: product1,
+                          hint: new Text(
+                            "Choose Products",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
             child: TextField(
               onChanged: (String str) {
                 setState(() {
@@ -178,26 +228,29 @@ class _AddOrderState extends State<AddOrder> {
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),
-            child: new DropdownButton<String>(
-              items: <String>['Full Payment', 'Pending'].map((String str) {
-                return new DropdownMenuItem<String>(
-                  value: str,
-                  child: new Text(str),
-                );
-              }).toList(),
-              onChanged: (selectedStatus) {
-                setState(() {
-                  status1 = selectedStatus;
-                  status = status1;
-                });
-              },
-              value: status1,
-              isDense: true,
-              isExpanded: true,
-              hint: Text(
-                'Choose Status Payment',
-                style: TextStyle(color: Colors.black54),
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                new DropdownButton<String>(
+                  items: <String>['Full Payment', 'Pending'].map((String str) {
+                    return new DropdownMenuItem<String>(
+                      value: str,
+                      child: new Text(str),
+                    );
+                  }).toList(),
+                  onChanged: (selectedStatus) {
+                    setState(() {
+                      status1 = selectedStatus;
+                      status = status1;
+                    });
+                  },
+                  value: status1,
+                  hint: Text(
+                    'Choose Status Payment',
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(

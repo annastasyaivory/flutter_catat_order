@@ -4,7 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditOrder extends StatefulWidget {
   EditOrder(
-      {this.alamat,
+      {this.product,
+      this.alamat,
       this.total,
       this.status,
       this.date,
@@ -18,6 +19,7 @@ class EditOrder extends StatefulWidget {
   final String status;
   final DateTime date;
   final index;
+  final String product;
   @override
   _EditOrderState createState() => _EditOrderState();
 }
@@ -28,6 +30,7 @@ class _EditOrderState extends State<EditOrder> {
   TextEditingController controllerAlamat;
   TextEditingController controllerTotal;
   TextEditingController controllerStatus;
+  TextEditingController controllerProduct;
 
   DateTime _dueDate;
   String _dateText = '';
@@ -35,6 +38,8 @@ class _EditOrderState extends State<EditOrder> {
   String name;
   String phone;
   String alamat = '';
+  String product = '';
+  String product1;
   String total = '';
   String status = '';
   String status1;
@@ -45,6 +50,7 @@ class _EditOrderState extends State<EditOrder> {
       await transaction.update(snapshot.reference, {
         "name": name,
         "alamat": alamat,
+        "product": product,
         "total": total,
         "status": status,
         "date": _dueDate,
@@ -77,6 +83,7 @@ class _EditOrderState extends State<EditOrder> {
     name = widget.name;
     phone = widget.phone;
     alamat = widget.alamat;
+    product = widget.product;
     total = widget.total;
     status = widget.status;
 
@@ -85,6 +92,7 @@ class _EditOrderState extends State<EditOrder> {
     controllerAlamat = new TextEditingController(text: widget.alamat);
     controllerTotal = new TextEditingController(text: widget.total);
     controllerStatus = new TextEditingController(text: widget.status);
+    controllerProduct = new TextEditingController(text: widget.product);
   }
 
   @override
@@ -192,6 +200,53 @@ class _EditOrderState extends State<EditOrder> {
               ),
               style: TextStyle(fontSize: 22.0, color: Colors.black),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("product")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return new Container(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  else {
+                    List<DropdownMenuItem> currencyProducts = [];
+                    for (int i = 0; i < snapshot.data.docs.length; i++) {
+                      var snap = snapshot.data.docs[i].data();
+                      String pro = snap['nama'];
+                      currencyProducts.add(
+                        DropdownMenuItem(
+                          child: Text(pro),
+                          value: "$pro",
+                        ),
+                      );
+                    }
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        DropdownButton(
+                          items: currencyProducts,
+                          onChanged: (selectedProduct) {
+                            setState(() {
+                              product1 = selectedProduct;
+                              product = product1;
+                            });
+                          },
+                          // value: product1,
+                          hint: new Text(
+                            product,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ),
           Padding(
             padding: const EdgeInsets.all(5.0),

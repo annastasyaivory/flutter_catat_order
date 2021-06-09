@@ -77,6 +77,7 @@ class OrderList extends StatelessWidget {
         String alamat = document[i].data()['alamat'].toString();
         String total = document[i].data()['total'].toString();
         String status = document[i].data()['status'].toString();
+        String product = document[i].data()['product'].toString();
 
         return new Dismissible(
           key: new Key(document[i].id),
@@ -163,6 +164,21 @@ class OrderList extends StatelessWidget {
                               ),
                             ),
                             Text(
+                              product,
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Icon(
+                                Icons.phone,
+                                color: Colors.pink,
+                              ),
+                            ),
+                            Text(
                               total,
                               style: TextStyle(fontSize: 18.0),
                             ),
@@ -196,6 +212,7 @@ class OrderList extends StatelessWidget {
                               date: document[i].data()['date'].toDate(),
                               phone: phone,
                               alamat: alamat,
+                              product: product,
                               total: total,
                               status: status,
                               index: document[i].reference,

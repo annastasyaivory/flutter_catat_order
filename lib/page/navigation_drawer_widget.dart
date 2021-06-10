@@ -14,18 +14,23 @@ class NavigationDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final name = 'Shop Manager';
     final email = auth.currentUser.email;
-    final urlImage =
-        'https://d29fhpw069ctt2.cloudfront.net/icon/image/37746/preview.svg';
 
     return Drawer(
       child: Material(
         color: Colors.blueGrey[900],
         child: ListView(
           children: <Widget>[
-            buildHeader(
-              urlImage: urlImage,
-              name: name,
-              email: email,
+            Row(
+              children: [
+                SizedBox(
+                  width: 7,
+                ),
+                Image.asset("img/logo.png", width: 60, height: 60),
+                buildHeader(
+                  name: name,
+                  email: email,
+                ),
+              ],
             ),
             buildMenuItem(
               text: 'Home',
@@ -67,7 +72,6 @@ class NavigationDrawerWidget extends StatelessWidget {
   }
 
   Widget buildHeader({
-    String urlImage,
     String name,
     String email,
   }) =>
@@ -76,11 +80,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           padding: padding.add(EdgeInsets.symmetric(vertical: 40)),
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(urlImage),
-              ),
-              SizedBox(width: 20),
+              SizedBox(width: 5),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

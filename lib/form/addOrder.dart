@@ -67,217 +67,234 @@ class _AddOrderState extends State<AddOrder> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 115.0,
-            width: double.infinity,
-            decoration: BoxDecoration(boxShadow: [
-              new BoxShadow(color: Colors.black, blurRadius: 8.0)
-            ], color: Colors.yellow),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Order Manager",
-                  style: TextStyle(fontSize: 30.0, letterSpacing: 2.0),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    "Add Order",
-                    style: TextStyle(fontSize: 24.0),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add Order'),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey[900],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
+              child: TextField(
+                onChanged: (String str) {
+                  setState(() {
+                    name = str;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              onChanged: (String str) {
-                setState(() {
-                  name = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.person_pin),
-                hintText: "Nama Customer",
-                border: InputBorder.none,
               ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: Icon(Icons.date_range),
-                ),
-                Expanded(
-                    child: Text(
-                  "Date",
-                  style: TextStyle(fontSize: 22.0, color: Colors.black54),
-                )),
-                FlatButton(
-                    onPressed: () => _selectDueDate(context),
-                    child: Text(
-                      _dateText,
-                      style: TextStyle(fontSize: 22.0, color: Colors.black54),
-                    )),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              onChanged: (String str) {
-                setState(() {
-                  phone = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Phone Number",
-                border: InputBorder.none,
-              ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              onChanged: (String str) {
-                setState(() {
-                  alamat = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Alamat",
-                border: InputBorder.none,
-              ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("product")
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return new Container(
-                      child: Center(
-                        child: CircularProgressIndicator(),
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black45),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Choose Date",
+                        style: TextStyle(color: Colors.black54, fontSize: 16),
                       ),
-                    );
-                  else {
-                    List<DropdownMenuItem> currencyProducts = [];
-                    for (int i = 0; i < snapshot.data.docs.length; i++) {
-                      var snap = snapshot.data.docs[i].data();
-                      String pro = snap['nama'];
-                      currencyProducts.add(
-                        DropdownMenuItem(
-                          child: Text(pro),
-                          value: "$pro",
-                        ),
-                      );
-                    }
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        DropdownButton(
-                          items: currencyProducts,
-                          onChanged: (selectedProduct) {
-                            setState(() {
-                              product1 = selectedProduct;
-                              product = product1;
-                            });
-                          },
-                          value: product1,
-                          hint: new Text(
-                            "Choose Products",
-                            style: TextStyle(color: Colors.black54),
-                          ),
-                        ),
-                      ],
-                    );
-                  }
-                }),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              onChanged: (String str) {
-                setState(() {
-                  total = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Total Belanja",
-                border: InputBorder.none,
+                    )),
+                    FlatButton(
+                        onPressed: () => _selectDueDate(context),
+                        child: Text(
+                          _dateText,
+                          style: TextStyle(color: Colors.black54),
+                        )),
+                  ],
+                ),
               ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                new DropdownButton<String>(
-                  items: <String>['Full Payment', 'Pending'].map((String str) {
-                    return new DropdownMenuItem<String>(
-                      value: str,
-                      child: new Text(str),
-                    );
-                  }).toList(),
-                  onChanged: (selectedStatus) {
-                    setState(() {
-                      status1 = selectedStatus;
-                      status = status1;
-                    });
-                  },
-                  value: status1,
-                  hint: Text(
-                    'Choose Status Payment',
-                    style: TextStyle(color: Colors.black54),
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                onChanged: (String str) {
+                  setState(() {
+                    phone = str;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Phone',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      size: 30.0,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
+            Padding(
+              padding: const EdgeInsets.all(5),
+              child: TextField(
+                onChanged: (String str) {
+                  setState(() {
+                    alamat = str;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Address',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black45),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection("product")
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return new Container(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      else {
+                        List<DropdownMenuItem> currencyProducts = [];
+                        for (int i = 0; i < snapshot.data.docs.length; i++) {
+                          var snap = snapshot.data.docs[i].data();
+                          String pro = snap['nama'];
+                          currencyProducts.add(
+                            DropdownMenuItem(
+                              child: Text(pro),
+                              value: "$pro",
+                            ),
+                          );
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: DropdownButton(
+                            underline: SizedBox(),
+                            items: currencyProducts,
+                            onChanged: (selectedProduct) {
+                              setState(() {
+                                product1 = selectedProduct;
+                                product = product1;
+                              });
+                            },
+                            isExpanded: true,
+                            value: product1,
+                            hint: new Text(
+                              "Choose Products",
+                              style: TextStyle(color: Colors.black54),
+                            ),
+                          ),
+                        );
+                      }
                     }),
-                IconButton(
-                    icon: Icon(
-                      Icons.check,
-                      size: 30.0,
-                    ),
-                    onPressed: () {
-                      _addData();
-                    })
-              ],
+              ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                onChanged: (String str) {
+                  setState(() {
+                    total = str;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Total',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black45),
+                    borderRadius: BorderRadius.circular(5.0)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10),
+                  child: new DropdownButton<String>(
+                    items:
+                        <String>['Full Payment', 'Pending'].map((String str) {
+                      return new DropdownMenuItem<String>(
+                        value: str,
+                        child: new Text(str),
+                      );
+                    }).toList(),
+                    onChanged: (selectedStatus) {
+                      setState(() {
+                        status1 = selectedStatus;
+                        status = status1;
+                      });
+                    },
+                    underline: SizedBox(),
+                    isExpanded: true,
+                    value: status1,
+                    hint: Text(
+                      'Choose Status Payment',
+                      style: TextStyle(color: Colors.black54),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                      color: Colors.blueGrey[900],
+                      textColor: Theme.of(context).primaryColorLight,
+                      child: Text(
+                        'Cancel',
+                        textScaleFactor: 1.5,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 5.0,
+                  ),
+                  Expanded(
+                    child: RaisedButton(
+                      color: Colors.blueGrey[900],
+                      textColor: Theme.of(context).primaryColorLight,
+                      child: Text(
+                        'Save',
+                        textScaleFactor: 1.5,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        _addData();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

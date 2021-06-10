@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey,
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: SafeArea(
@@ -46,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: <Widget>[
                       Text(
                         "Don’t have account ?",
+                        style: TextStyle(color: Colors.white),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -58,7 +60,8 @@ class _LoginPageState extends State<LoginPage> {
                           "Register here",
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              decoration: TextDecoration.underline),
+                              decoration: TextDecoration.underline,
+                              color: Colors.white),
                         ),
                       ),
                     ],
@@ -81,7 +84,10 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             "Login",
             style: TextStyle(
-                fontWeight: FontWeight.w300, fontSize: 36, letterSpacing: 5),
+                fontWeight: FontWeight.w300,
+                fontSize: 36,
+                letterSpacing: 5,
+                color: Colors.white),
           ),
         ],
       ),
@@ -97,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
           margin: EdgeInsets.symmetric(vertical: 10),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           decoration: BoxDecoration(
-            color: Colors.yellow[200],
+            color: Colors.blueGrey[200],
           ),
           //membuuat form email
           child: TextFormField(
@@ -123,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
           margin: EdgeInsets.symmetric(vertical: 10),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           decoration: BoxDecoration(
-            color: Colors.yellow[200],
+            color: Colors.blueGrey[200],
           ),
           //membuat form password
           child: TextFormField(
@@ -171,9 +177,9 @@ class _LoginPageState extends State<LoginPage> {
         },
         child: Text(
           "Login",
-          style: TextStyle(fontSize: 15, color: Colors.black),
+          style: TextStyle(fontSize: 15, color: Colors.white),
         ),
-        color: Colors.yellow,
+        color: Colors.blueGrey[900],
         elevation: 0,
       ),
     );
@@ -186,18 +192,20 @@ class _LoginPageState extends State<LoginPage> {
         Expanded(
           child: Divider(
             thickness: 1,
+            color: Colors.white,
           ),
         ),
         SizedBox(width: 20),
         Text(
           "OR",
-          // style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         SizedBox(width: 20),
         Expanded(
           child: Divider(
             //menampilkan garis
             thickness: 1,
+            color: Colors.white,
           ),
         ),
       ],
@@ -210,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
       margin: EdgeInsets.symmetric(vertical: 4),
       child: FlatButton(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-        color: Colors.yellow,
+        color: Colors.blueGrey[900],
         onPressed: () {
           signInWithGoogle().then((result) {
             if (result != null) {
@@ -237,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Login with Google',
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             )

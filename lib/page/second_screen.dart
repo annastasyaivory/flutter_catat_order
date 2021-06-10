@@ -12,6 +12,7 @@ class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: NavigationDrawerWidget(),
       appBar: AppBar(
         title: Text('Products'),
@@ -26,16 +27,9 @@ class SecondScreen extends StatelessWidget {
                   )));
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.black,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: new BottomAppBar(
-        elevation: 20.0,
-        color: Colors.yellow,
-        child: ButtonBar(
-          children: <Widget>[],
-        ),
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Stack(children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(0),
@@ -69,77 +63,86 @@ class ProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
-      itemCount: document.length,
-      itemBuilder: (BuildContext context, int i) {
-        String nama = document[i].data()['nama'].toString();
-        String harga = document[i].data()['harga'].toString();
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: new ListView.builder(
+        itemCount: document.length,
+        itemBuilder: (BuildContext context, int i) {
+          String nama = document[i].data()['nama'].toString();
+          String harga = document[i].data()['harga'].toString();
 
-        return new Dismissible(
-          key: new Key(document[i].id),
-          onDismissed: (direction) {
-            FirebaseFirestore.instance
-                .runTransaction((Transaction transaction) async {
-              DocumentSnapshot snapshot =
-                  await transaction.get(document[i].reference);
-              await transaction.delete(snapshot.reference);
-            });
-            Scaffold.of(context)
-                .showSnackBar(new SnackBar(content: new Text("Data Deleted")));
-          },
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Text(
-                            nama,
-                            style:
-                                TextStyle(fontSize: 20.0, letterSpacing: 1.0),
-                          ),
-                        ),
-                        Row(
-                          children: [
+          return Card(
+            color: Colors.blueGrey,
+            elevation: 2.0,
+            shadowColor: Colors.black,
+            child: new Dismissible(
+              key: new Key(document[i].id),
+              onDismissed: (direction) {
+                FirebaseFirestore.instance
+                    .runTransaction((Transaction transaction) async {
+                  DocumentSnapshot snapshot =
+                      await transaction.get(document[i].reference);
+                  await transaction.delete(snapshot.reference);
+                });
+                Scaffold.of(context).showSnackBar(
+                    new SnackBar(content: new Text("Data Deleted")));
+              },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(right: 16.0),
-                              child: Icon(
-                                Icons.phone,
-                                color: Colors.pink,
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Text(
+                                nama,
+                                style: TextStyle(
+                                    fontSize: 20.0, color: Colors.white),
                               ),
                             ),
-                            Text(
-                              harga,
-                              style: TextStyle(fontSize: 18.0),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 5),
+                                  child: Icon(
+                                    Icons.attach_money,
+                                    color: Colors.blueGrey[900],
+                                  ),
+                                ),
+                                Text(
+                                  harga,
+                                  style: TextStyle(
+                                      fontSize: 18.0, color: Colors.white),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (BuildContext context) => new EditProduct(
+                                  nama: nama,
+                                  harga: harga,
+                                  index: document[i].reference,
+                                )));
+                      },
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) => new EditProduct(
-                              nama: nama,
-                              harga: harga,
-                              index: document[i].reference,
-                            )));
-                  },
-                ),
-              ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

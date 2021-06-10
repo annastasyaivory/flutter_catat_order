@@ -21,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey,
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: SafeArea(
@@ -43,6 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: <Widget>[
                       Text(
                         "Already have account ?",
+                        style: TextStyle(color: Colors.white),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -55,7 +57,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           "Login here",
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              decoration: TextDecoration.underline),
+                              decoration: TextDecoration.underline,
+                              color: Colors.white),
                         ),
                       ),
                     ],
@@ -78,7 +81,10 @@ class _RegisterPageState extends State<RegisterPage> {
           Text(
             "Register",
             style: TextStyle(
-                fontWeight: FontWeight.w300, fontSize: 36, letterSpacing: 5),
+                fontWeight: FontWeight.w300,
+                fontSize: 36,
+                letterSpacing: 5,
+                color: Colors.white),
           ),
         ],
       ),
@@ -94,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
           margin: EdgeInsets.symmetric(vertical: 10),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           decoration: BoxDecoration(
-            color: Colors.yellow[200],
+            color: Colors.blueGrey[200],
           ),
           //form email
           child: TextFormField(
@@ -120,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
           margin: EdgeInsets.symmetric(vertical: 10),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           decoration: BoxDecoration(
-            color: Colors.yellow[200],
+            color: Colors.blueGrey[200],
           ),
           //form password
           child: TextFormField(
@@ -157,7 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
       margin: EdgeInsets.symmetric(vertical: 4),
       child: FlatButton(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-        color: Colors.yellow,
+        color: Colors.blueGrey[900],
         onPressed: () {
           authHandler
               .handleSignUp(emailController.text,
@@ -169,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
         },
         child: Text(
           "Register",
-          style: TextStyle(fontSize: 15, color: Colors.black),
+          style: TextStyle(fontSize: 15, color: Colors.white),
         ),
       ),
     );

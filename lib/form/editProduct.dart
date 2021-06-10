@@ -41,91 +41,91 @@ class _EditProductState extends State<EditProduct> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 115.0,
-            width: double.infinity,
-            decoration: BoxDecoration(boxShadow: [
-              new BoxShadow(color: Colors.black, blurRadius: 8.0)
-            ], color: Colors.yellow),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Order Manager",
-                  style: TextStyle(fontSize: 30.0, letterSpacing: 2.0),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Text(
-                    "Edit Product",
-                    style: TextStyle(fontSize: 24.0),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Add Product'),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey[900],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: TextField(
+                controller: controllerNama,
+                onChanged: (String str) {
+                  setState(() {
+                    nama = str;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
                 ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              controller: controllerNama,
-              onChanged: (String str) {
-                setState(() {
-                  nama = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.person_pin),
-                hintText: "Nama Produk",
-                border: InputBorder.none,
               ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: TextField(
-              controller: controllerHarga,
-              onChanged: (String str) {
-                setState(() {
-                  harga = str;
-                });
-              },
-              decoration: new InputDecoration(
-                icon: Icon(Icons.phone),
-                hintText: "Harga",
-                border: InputBorder.none,
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: TextField(
+                controller: controllerHarga,
+                onChanged: (String str) {
+                  setState(() {
+                    harga = str;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: 'Harga',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
               ),
-              style: TextStyle(fontSize: 22.0, color: Colors.black),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.check,
-                      size: 30.0,
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                      color: Colors.blueGrey[900],
+                      textColor: Theme.of(context).primaryColorLight,
+                      child: Text(
+                        'Cancel',
+                        textScaleFactor: 1.5,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    onPressed: () {
-                      _updateProduct();
-                    }),
-                IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      size: 30.0,
+                  ),
+                  Container(
+                    width: 5.0,
+                  ),
+                  Expanded(
+                    child: RaisedButton(
+                      color: Colors.blueGrey[900],
+                      textColor: Theme.of(context).primaryColorLight,
+                      child: Text(
+                        'Save',
+                        textScaleFactor: 1.5,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        _updateProduct();
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    })
-              ],
-            ),
-          )
-        ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

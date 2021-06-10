@@ -16,7 +16,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   }
 
   startSplashScreen() async {
-    var duration = const Duration(seconds: 10);
+    var duration = const Duration(seconds: 7);
     return Timer(duration, () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
         return LoginPage();
@@ -27,7 +27,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.yellow[200],
+        backgroundColor: Colors.blueGrey[900],
         body: Column(
           children: [
             SizedBox(height: 100),
@@ -46,7 +46,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                 style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black),
+                    color: Colors.white,
+                    letterSpacing: 3),
               ),
             ),
             SizedBox(height: 50),
@@ -57,7 +58,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black),
+                    color: Colors.white,
+                    letterSpacing: 2),
+                textAlign: TextAlign.center,
               ),
             ),
           ],

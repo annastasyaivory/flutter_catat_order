@@ -12,8 +12,9 @@ class Screen extends StatelessWidget {
       drawer: NavigationDrawerWidget(),
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
-        title: Text('Catatan Orderan'),
-        backgroundColor: Colors.blueGrey[200],
+        title: Text('Shop Manager'),
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey[900],
       ),
       body: Container(
         child: Row(
@@ -29,11 +30,11 @@ class Screen extends StatelessWidget {
                 child: Column(
                   children: [
                     new Icon(
-                      Icons.account_circle,
+                      Icons.shopping_bag,
                       size: 100.0,
                       color: Colors.black,
                     ),
-                    Text("Customer",
+                    Text("Products",
                         style: TextStyle(
                             fontSize: 27, color: Color.fromRGBO(0, 0, 0, 1))),
                   ],
@@ -43,7 +44,7 @@ class Screen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            FirstScreen()), //panggil fungsi dari file customer.dart untuk menampilkan listview isi tabel
+                            SecondScreen()), //panggil fungsi dari file customer.dart untuk menampilkan listview isi tabel
                   );
                 },
               ),
@@ -58,11 +59,11 @@ class Screen extends StatelessWidget {
                 child: Column(
                   children: [
                     new Icon(
-                      Icons.wallet_travel_rounded,
+                      Icons.people,
                       size: 100.0,
                       color: Colors.black,
                     ),
-                    Text("Transaksi",
+                    Text("Orders",
                         style: TextStyle(
                             fontSize: 27, color: Color.fromRGBO(0, 0, 0, 1))),
                   ],
@@ -72,7 +73,7 @@ class Screen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            SecondScreen()), //panggil fungsi dari file transaksi.dart untuk menampilkan listview isi tabel
+                            FirstScreen()), //panggil fungsi dari file transaksi.dart untuk menampilkan listview isi tabel
                   );
                 },
               ),

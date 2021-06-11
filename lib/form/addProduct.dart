@@ -10,14 +10,18 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
+  //var untuk field
   String nama = '';
   String harga = '';
 
   void _addProduct() {
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection('product');
+      //collection reference using .add(data)
+      //document reference using .set(data)
+      CollectionReference reference = FirebaseFirestore.instance
+          .collection('product'); //adding data to collection named product
       await reference.add({
+        //field of product collection
         "email": widget.email,
         "nama": nama,
         "harga": harga,
@@ -37,7 +41,9 @@ class _AddProductState extends State<AddProduct> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
+          //list view scrollable
           children: <Widget>[
+            //add nama product
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: TextField(
@@ -54,6 +60,7 @@ class _AddProductState extends State<AddProduct> {
                 ),
               ),
             ),
+            //add harga product
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: TextField(
@@ -86,7 +93,7 @@ class _AddProductState extends State<AddProduct> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context); //kembali ke halaman sebelumnya
                       },
                     ),
                   ),
@@ -103,7 +110,7 @@ class _AddProductState extends State<AddProduct> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
-                        _addProduct();
+                        _addProduct(); //memanggil fungsi untuk menyimpan dan menambahkan data ke firestore database
                       },
                     ),
                   ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditOrder extends StatefulWidget {
+  //menerima parameter dari halaman sebelumnya
   EditOrder(
       {this.product,
       this.alamat,
@@ -25,6 +26,7 @@ class EditOrder extends StatefulWidget {
 }
 
 class _EditOrderState extends State<EditOrder> {
+  //menghandle isian text field
   TextEditingController controllerName;
   TextEditingController controllerPhone;
   TextEditingController controllerAlamat;
@@ -35,6 +37,7 @@ class _EditOrderState extends State<EditOrder> {
   DateTime _dueDate;
   String _dateText = '';
 
+  //inisialisasi var
   String name;
   String phone;
   String alamat = '';
@@ -46,7 +49,9 @@ class _EditOrderState extends State<EditOrder> {
 
   void _updateOrder() {
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
-      DocumentSnapshot snapshot = await transaction.get(widget.index);
+      //document snapshot membaca dokumen di firebase
+      DocumentSnapshot snapshot =
+          await transaction.get(widget.index); //dibaca sesuai indeks
       await transaction.update(snapshot.reference, {
         "name": name,
         "alamat": alamat,
@@ -76,8 +81,9 @@ class _EditOrderState extends State<EditOrder> {
 
   @override
   void initState() {
+    //agar data terupdate
     super.initState();
-    _dueDate = widget.date; //toDate()
+    _dueDate = widget.date;
     _dateText = "${_dueDate.day}/${_dueDate.month}/${_dueDate.year}";
 
     name = widget.name;

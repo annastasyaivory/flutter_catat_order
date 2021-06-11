@@ -19,11 +19,12 @@ class SecondScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.blueGrey[900],
       ),
+      //button untuk add data baru
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(new MaterialPageRoute(
               builder: (BuildContext context) => new AddProduct(
-                    email: auth.currentUser.email,
+                    email: auth.currentUser.email, //dengan mengirimkan email
                   )));
         },
         child: Icon(Icons.add),
@@ -34,6 +35,7 @@ class SecondScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(0),
           child: StreamBuilder(
+            //menampilkan data sesuai user yang sedang login
             stream: FirebaseFirestore.instance
                 .collection("product")
                 .where("email", isEqualTo: auth.currentUser.email)
@@ -75,15 +77,18 @@ class ProductList extends StatelessWidget {
             color: Colors.blueGrey,
             elevation: 2.0,
             shadowColor: Colors.black,
+            //swipe to delete data
             child: new Dismissible(
               key: new Key(document[i].id),
               onDismissed: (direction) {
                 FirebaseFirestore.instance
                     .runTransaction((Transaction transaction) async {
+                  //document snapshot membaca dokumen di firebase
                   DocumentSnapshot snapshot =
                       await transaction.get(document[i].reference);
                   await transaction.delete(snapshot.reference);
                 });
+                //snack bar tampil di bawah jika ada data yang terhapus
                 Scaffold.of(context).showSnackBar(
                     new SnackBar(content: new Text("Data Deleted")));
               },
@@ -125,10 +130,12 @@ class ProductList extends StatelessWidget {
                         ),
                       ),
                     ),
+                    //edit data
                     IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () {
                         Navigator.of(context).push(new MaterialPageRoute(
+                            //mengirimkan parameter
                             builder: (BuildContext context) => new EditProduct(
                                   nama: nama,
                                   harga: harga,

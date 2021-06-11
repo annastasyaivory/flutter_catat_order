@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProduct extends StatefulWidget {
+  //menerima parameter dari halaman sebelumnya
   EditProduct({this.nama, this.harga, this.index});
   final String nama;
   final String harga;
@@ -12,15 +13,19 @@ class EditProduct extends StatefulWidget {
 }
 
 class _EditProductState extends State<EditProduct> {
+  //menghandle isian text field
   TextEditingController controllerNama;
   TextEditingController controllerHarga;
 
+  //inisialisasi var
   String nama;
   String harga;
 
   void _updateProduct() {
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
-      DocumentSnapshot snapshot = await transaction.get(widget.index);
+      //document snapshot membaca dokumen di firebase
+      DocumentSnapshot snapshot =
+          await transaction.get(widget.index); //dibaca sesuai indeks
       await transaction.update(snapshot.reference, {
         "nama": nama,
         "harga": harga,

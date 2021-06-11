@@ -105,7 +105,7 @@ class _EditOrderState extends State<EditOrder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Product'),
+        title: Text('Edit Order'),
         centerTitle: true,
         backgroundColor: Colors.blueGrey[900],
       ),
